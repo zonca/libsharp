@@ -69,7 +69,7 @@ ifndef PIC_CFLAGS
 	$(error Python extension must be built using the --enable-pic configure option.)
 endif
 	cython $<
-	$(CC) $(DEBUG_CFLAGS) $(OPENMP_CFLAGS) $(PIC_CFLAGS) `python-config --cflags` -I$(INCDIR) -o $(<:.pyx=.o) -c $(<:.pyx=.c)
+	$(CC) $(DEBUG_CFLAGS) $(OPENMP_CFLAGS) $(PIC_CFLAGS) -I/home/zonca/anaconda/envs/sharp/include/python3.6m -I/home/zonca/anaconda/envs/sharp/include/python3.6m  -Wno-unused-result -Wsign-compare -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -O3 -pipe -flto -fuse-linker-plugin -ffat-lto-objects -DNDEBUG -fwrapv -O3 -Wall -Wstrict-prototypes -I$(INCDIR) -o $(<:.pyx=.o) -c $(<:.pyx=.c)
 	$(CL) -shared $(<:.pyx=.o) $(OPENMP_CFLAGS) $(CYTHON_OBJ) -L$(LIBDIR) -lsharp -lfftpack -lc_utils -L`python-config --prefix`/lib `python-config --ldflags` -o $@
 
 python: $(all_lib) hdrcopy $(CYTHON_MODULES)
